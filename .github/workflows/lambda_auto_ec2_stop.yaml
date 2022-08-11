@@ -2,7 +2,7 @@ name: Lambda Deploy
 
 on:
   # 以下の場合に実行する
-  # 1. developブランチにauto_ec2_start配下の資材がプッシュされた時
+  # 1. developブランチにauto_ec2_stop配下の資材がプッシュされた時
   # 2. pull requestが開かれたり、再度開かれたりした時
   push:
     branches: [ "develop" ]
