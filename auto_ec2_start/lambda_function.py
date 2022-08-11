@@ -142,6 +142,8 @@ def lambda_handler(event, context):
     # タグ「Startble」が「true」のインスタンスIDのリスト作成
     instances_id_list = make_list_startble_instances_id()
 
+    if len(instances_id_list) == 0 : print("タグ「Startble」が「true」のインスタンスIDがございません"); return
+
     # EC2インスタンスの起動処理
     startEC2instances(instances_id_list)
 
@@ -155,7 +157,7 @@ def lambda_handler(event, context):
     sendMail(instances_name_publicip_list)
 
 # デバック用
-# Lambdaで実行する際はコメントアウトすること
-event = None
-context = None
-lambda_handler(event, context)
+# コミットする際はコメントアウトすること
+# event = None
+# context = None
+# lambda_handler(event, context)
