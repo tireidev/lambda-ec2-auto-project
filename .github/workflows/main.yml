@@ -18,7 +18,7 @@ jobs:
 
       # github actionsでAWSを操作するための設定
       - name: configure-aws-credentials
-        run: aws-actions/configure-aws-credentials@master
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: ${{ secrets.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
