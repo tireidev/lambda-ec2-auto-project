@@ -10,7 +10,10 @@ jobs:
   deploy:
     # 最新のUbuntu上で実行
     runs-on: ubuntu-latest
-
+    permissions:
+      id-token: write
+      contents: read
+      
     # 実行手順
     steps:
       # 自分のリポジトリをGITHUBのWORKSPACEにチェックアウトする
