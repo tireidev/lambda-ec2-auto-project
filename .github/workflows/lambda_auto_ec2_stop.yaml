@@ -1,0 +1,52 @@
+name: Lambda Deploy
+
+on:
+  # 以下の場合に実行する
+  # 1. developブランチにauto_ec2_stop配下の資材がプッシュされた時
+  # 2. pull requestが開かれたり、再度開かれたりした時
+  push:
+    branches: [ "develop" ]
+    paths:
+    - 'auto_ec2_stop/**' 
+    - '!**.md' 
+    - '!**.json' 
+
+  pull_request:
+    types: [opened, reopened]
+
+# 処理
+jobs:
+  deploy:
+    # 最新のUbuntu上で実行
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    # 実行手順
+    steps:
+      # 自分のリポジトリをGITHUBのWORKSPACEにチェックアウトする
+      - uses: actions/checkout@v3
+
+      # github actionsでAWSを操作するための設定
+      - name: configure-aws-credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-session-name: GitHubActions
+
+      # AWS アカウントIDを取得するための操作
+      - name: get-caller-identity is allowed to run on role.
+        run: aws sts get-caller-identity
+      
+      - name: setup-python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: lambda update
+        run: |
+          pip3 install awscli
+          cd auto_ec2_stop && zip -r package.zip lambda_function.py
+          aws lambda update-function-code --function-name auto_ec2_stop --zip-file fileb://package.zip --publish

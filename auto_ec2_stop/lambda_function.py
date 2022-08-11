@@ -80,6 +80,6 @@ def lambda_handler(event, context):
 
 # デバック用
 # Lambdaで実行する際はコメントアウトすること
-event = None
-context = None
-lambda_handler(event, context)
+# event = None
+# context = None
+# lambda_handler(event, context)
