@@ -1,9 +1,13 @@
 name: Lambda Deploy
 
 on:
-  # developブランチにプッシュされた時に実行
+  # developブランチにauto_ec2_start配下がの資材がプッシュされた時に実行
   push:
     branches: [ "develop" ]
+    paths:
+    - 'auto_ec2_start/**' 
+    - '!**.md' 
+    - '!**.json' 
 
 # 処理
 jobs:
@@ -13,7 +17,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-      
+
     # 実行手順
     steps:
       # 自分のリポジトリをGITHUBのWORKSPACEにチェックアウトする
