@@ -1,13 +1,18 @@
 name: Lambda Deploy
 
 on:
-  # developブランチにauto_ec2_stop配下がの資材がプッシュされた時に実行
+  # 以下の場合に実行する
+  # 1. developブランチにauto_ec2_start配下の資材がプッシュされた時
+  # 2. pull requestが開かれたり、再度開かれたりした時
   push:
     branches: [ "develop" ]
     paths:
     - 'auto_ec2_stop/**' 
     - '!**.md' 
     - '!**.json' 
+
+  pull_request:
+    types: [opened, reopened]
 
 # 処理
 jobs:
